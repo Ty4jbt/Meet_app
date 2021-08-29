@@ -3,7 +3,15 @@ import React, { Component } from 'react';
 class CitySearch extends Component {
     state = {
         query: '',
-        suggestions: []
+        suggestions: [],
+        showSuggestions: false
+    }
+    
+    updateList() {
+        const suggestions = this.props.locations.filter((location) => location);
+        this.setState({
+            suggestions,
+        });
     }
 
     handleInputChanged = (event) => {
@@ -21,6 +29,7 @@ class CitySearch extends Component {
         this.setState({
           query: suggestion
         });
+        this.props.updateEvents(suggestion);
     }
 
     render() {
@@ -30,6 +39,7 @@ class CitySearch extends Component {
                     type="text"
                     className='city'
                     value={this.state.query}
+                    placeholder='Search for a City'
                     onChange={this.handleInputChanged}
                 />
                 <ul className="suggestions">
@@ -39,7 +49,7 @@ class CitySearch extends Component {
                             onClick={() => this.handleItemClicked(suggestion)}
                         >{suggestion}</li>
                     ))}
-                    <li key='all'>
+                    <li onClick={() => this.handleItemClicked('all')}>
                         <b>See all cities</b>
                     </li>
                 </ul>
