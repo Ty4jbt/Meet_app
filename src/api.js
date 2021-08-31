@@ -17,3 +17,10 @@ import { mockData } from './mock-data';
   export const getEvents = async () => {
     return mockData;
   };
+
+  export const numFilter = (events, num) => {
+    if (num === 0) {
+      return events.slice(0, 32);
+    }
+    return events.slice(0, num);
+  }
