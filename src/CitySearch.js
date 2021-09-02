@@ -7,14 +7,12 @@ class CitySearch extends Component {
         showSuggestions: false
     }
     
-    updateList() {
-        const suggestions = this.props.locations.filter((location) => {
-            return location
-        });
-        this.setState({
-            suggestions,
-        });
-    }
+    // updateList() {
+    //     const suggestions = this.props.locations.filter((location) => location);
+    //     this.setState({
+    //         suggestions,
+    //     });
+    // }
 
     handleInputChanged = (event) => {
         const value = event.target.value;

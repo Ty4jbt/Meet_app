@@ -1,3 +1,4 @@
+import './nprogress.css';
 import React, { Component } from 'react';
 import './App.css';
 import EventList from './EventList';
@@ -13,7 +14,8 @@ class App extends Component {
     locations: [],
     numberOfEventsShown: 32,
     locationsFilter: [],
-    numFilteredList: []
+    numFilteredList: [],
+    selectedLocation: 'all'
   }
   
   componentDidMount() {
@@ -22,7 +24,7 @@ class App extends Component {
     getEvents().then((events) => {
       if (this.mounted) {
         this.setState({
-          events: [],
+          events: events,
           numFilteredList: events.slice(0, 32),
           locations: extractLocations(events) });
       }
@@ -63,6 +65,10 @@ class App extends Component {
   }
 
   render() {
+
+    const { selectedLocation, events, numberOfEventsShown } = this.state;
+    const filteredEvents = selectedLocation === 'all' ? events : events.filter(event => event.location === selectedLocation);
+
     return (
       <div className="App">
         <CitySearch
@@ -70,10 +76,10 @@ class App extends Component {
           updateEvents={this.updateEvents}
         />
         <NumberOfEvents
-          numberOfEventsShown={this.state.numberOfEventsShown}
+          numberOfEventsShown={numberOfEventsShown}
           updateNumberOfEvents={this.updateNumberOfEvents}
         />
-        <EventList events={this.state.events} />
+        <EventList events={filteredEvents} />
       </div>
     );
   }
