@@ -5,7 +5,7 @@ import EventList from './EventList';
 import CitySearch from './CitySearch';
 import NumberOfEvents from './NumberOfEvents';
 // import mockData from './mock-data';
-import { getEvents, extractLocations, numFilter } from './api';
+import { getEvents, extractLocations } from './api';
 
 class App extends Component {
   
@@ -13,8 +13,6 @@ class App extends Component {
     events: [],
     locations: [],
     numberOfEventsShown: 32,
-    locationsFilter: [],
-    numFilteredList: [],
     selectedLocation: 'all'
   }
   
@@ -23,10 +21,7 @@ class App extends Component {
     this.mounted = true;
     getEvents().then((events) => {
       if (this.mounted) {
-        this.setState({
-          events: events,
-          numFilteredList: events.slice(0, 32),
-          locations: extractLocations(events) });
+        this.setState({ events, locations: extractLocations(events) });
       }
     });
   }
@@ -41,27 +36,19 @@ class App extends Component {
         events :
         events.filter((event) => event.location === location);
       
+      const { numberOfEventsShown } = this.state;
       this.setState({
-        locationsFilter: locationEvents,
-        numFilteredList: numFilter(locationEvents, this.state.numberOfEventsShown)
-        // currentCity: location,
-        //locations: [location],
+        events: locationEvents.slice(0, numberOfEventsShown)
       });
     });
   }
 
-  updateNumberOfEvents = (num) => {
-    if (this.state.locationsFilter.length !== 0) {
-      this.setState({
-        numberOfEventsShown: num,
-        numFilteredList: numFilter(this.state.locationsFilter, num)
-      });
-    } else {
-      this.setState({
-        numberOfEventsShown: num,
-        numFilteredList: numFilter(this.state.events, num)
-      })
-    }
+  updateEventCount = (num) => {
+    const { selectedLocation } = this.state;
+    this.setState({
+      numberOfEventsShown: num
+    });
+    this.updateEvents(selectedLocation);
   }
 
   render() {
@@ -77,7 +64,7 @@ class App extends Component {
         />
         <NumberOfEvents
           numberOfEventsShown={numberOfEventsShown}
-          updateNumberOfEvents={this.updateNumberOfEvents}
+          updateNumberOfEvents={() => this.updateEventCount()}
         />
         <EventList events={filteredEvents} />
       </div>

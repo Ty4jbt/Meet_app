@@ -51,7 +51,6 @@ describe('<App /> integration', () => {
         const suggestions = CitySearchWrapper.state('suggestions');
         const selectedIndex = Math.floor(Math.random() * (suggestions.length));
         const selectedCity = suggestions[selectedIndex];
-        console.log(selectedCity);
         await CitySearchWrapper.instance().handleItemClicked(selectedCity);
         const allEvents = await getEvents();
         AppWrapper.setState({ events: allEvents }); 
