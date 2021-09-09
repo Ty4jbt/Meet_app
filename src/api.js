@@ -51,12 +51,6 @@ import NProgress from 'nprogress';
       NProgress.done();
       return mockData;
     }
-
-    if (!navigator.onLine) {
-      const events = localStorage.getItem("lastEvents");
-      NProgress.done();
-      return events ? JSON.parse(events).events : [];;
-    }
     
     const token = await getAccessToken();
 
