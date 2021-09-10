@@ -75,7 +75,7 @@ import NProgress from 'nprogress';
         '//' +
         window.location.host +
         window.location.pathname;
-      window.location.pushState('', '', newurl);
+      window.history.pushState('', '', newurl);
     } else {
       newurl = window.location.protocol + '//' + window.location.host;
       window.history.pushState('', '', newurl);
