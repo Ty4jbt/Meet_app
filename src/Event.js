@@ -38,6 +38,7 @@ class Event extends Component {
             <>
                 <div className='event'>
                     <h2>{event.summary}</h2>
+                    <h4>{event.location}</h4>
                     <p className="description">{this.eventDescription(event)}</p>
                     <button className='details-btn' onClick={() => {this.showMore(event)}}>{this.showText()}</button>
                 </div>
