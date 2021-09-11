@@ -4,6 +4,7 @@ import './App.css';
 import EventList from './EventList';
 import CitySearch from './CitySearch';
 import NumberOfEvents from './NumberOfEvents';
+// import mockData from './mock-data';
 import { getEvents, extractLocations } from './api';
 
 class App extends Component {
@@ -16,6 +17,7 @@ class App extends Component {
   }
   
   componentDidMount() {
+    // const { numberOfEvents } = this.state;
     this.mounted = true;
     getEvents().then((events) => {
       if (this.mounted) {
@@ -62,7 +64,7 @@ class App extends Component {
         />
         <NumberOfEvents
           numberOfEventsShown={numberOfEventsShown}
-          updateNumberOfEvents={() => this.updateEventCount()}
+          updateNumberOfEvents={this.updateEventCount}
         />
         <EventList events={filteredEvents} />
       </div>
