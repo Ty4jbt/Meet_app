@@ -13,7 +13,8 @@ class App extends Component {
     events: [],
     locations: [],
     numberOfEventsShown: 32,
-    selectedLocation: 'all'
+    selectedLocation: 'all',
+    warningText: ''
   }
   
   componentDidMount() {
@@ -31,6 +32,17 @@ class App extends Component {
   }
 
   updateEvents = (location) => {
+
+    if (!navigator.onLine) {
+      this.setState({
+        warningText: 'You are offline. These events may not be up-to-date.'
+      });
+    } else {
+      this.setState({
+        warningText: ''
+      });
+    }
+
     getEvents().then((events) => {
       const locationEvents = (location === 'all') ?
         events :
