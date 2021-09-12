@@ -22,6 +22,16 @@ class App extends Component {
     // const { numberOfEvents } = this.state;
     this.mounted = true;
     getEvents().then((events) => {
+      if (!navigator.onLine) {
+        this.setState({
+          warningText: 'You are offline. These events may not be up-to-date.'
+        });
+      } else {
+        this.setState({
+          warningText: ''
+        });
+      }
+      
       if (this.mounted) {
         this.setState({ events, locations: extractLocations(events) });
       }
