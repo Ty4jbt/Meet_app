@@ -6,6 +6,7 @@ import CitySearch from './CitySearch';
 import NumberOfEvents from './NumberOfEvents';
 // import mockData from './mock-data';
 import { getEvents, extractLocations } from './api';
+import { WarningAlert } from './Alert';
 
 class App extends Component {
   
@@ -70,6 +71,7 @@ class App extends Component {
 
     return (
       <div className="App">
+        <WarningAlert text={this.state.warningText} />
         <CitySearch
           locations={this.state.locations}
           updateEvents={this.updateEvents}
