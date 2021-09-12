@@ -7,6 +7,9 @@ import NumberOfEvents from './NumberOfEvents';
 // import mockData from './mock-data';
 import { getEvents, extractLocations } from './api';
 import { WarningAlert } from './Alert';
+import {
+  ScatterChart, Scatter, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer
+} from 'recharts';
 
 class App extends Component {
   
@@ -31,7 +34,7 @@ class App extends Component {
           warningText: ''
         });
       }
-      
+
       if (this.mounted) {
         this.setState({ events, locations: extractLocations(events) });
       }
@@ -74,6 +77,16 @@ class App extends Component {
     this.updateEvents(selectedLocation);
   }
 
+  getData = () => {
+    const {locations, events} = this.state;
+    const data = locations.map((location)=>{
+      const number = events.filter((event) => event.location === location).length
+      const city = location.split(', ').shift()
+      return {city, number};
+    })
+    return data;
+  };
+
   render() {
 
     const { selectedLocation, events, numberOfEventsShown } = this.state;
@@ -90,6 +103,17 @@ class App extends Component {
           numberOfEventsShown={numberOfEventsShown}
           updateNumberOfEvents={this.updateEventCount}
         />
+        <h4>Events in each city</h4>
+
+        <ResponsiveContainer height={400} >
+          <ScatterChart margin={{ top: 20, right: 20, bottom: 20, left: 20 }} >
+            <CartesianGrid />
+            <XAxis type="category" dataKey="city" name="city" />
+            <YAxis type="number" dataKey="number" name="number of events" allowDecimals={false} />
+            <Tooltip cursor={{ strokeDasharray: '3 3' }} />
+            <Scatter data={this.getData()} fill="#8884d8" />
+          </ScatterChart>
+        </ResponsiveContainer>
         <EventList events={filteredEvents} />
       </div>
     );
